@@ -18,19 +18,27 @@ fn main() {
         })
         .collect(); // Collect all tuples into a vector
 
+    // Initialize password and dial variables
     let mut password = 0;
     let mut dial = 50;
     
     for item in &data {
         if item.0 == 'R' {
+            if dial + item.1 > 99{
+                password += (dial + item.1) / 100;
+            }
             dial = (dial + item.1) % 100;
         } else {
+            if dial - item.1 < 1{
+                if dial != 0 {
+                    password += (dial - item.1) / -100 + 1;
+                } else {
+                    password += (dial - item.1) / -100;
+                }
+            }
             dial = (dial-item.1).rem_euclid(100);
-        }
-        if dial == 0 {
-            password += 1;
         }
     }
 
-    println!("Password: {}", password)
+    println!("Password: {}", password);
 }
